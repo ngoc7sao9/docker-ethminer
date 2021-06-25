@@ -1,4 +1,4 @@
-ARG CUDA_VERSION=11.2.2
+ARG CUDA_VERSION=11.0
 ARG ETHMINER_COMMIT=ce52c74021b6fbaaddea3c3c52f64f24e39ea3e9
 FROM nvidia/cuda:$CUDA_VERSION-devel AS build
 ENV DEBIAN_FRONTEND=noninteractive
@@ -16,4 +16,4 @@ RUN cmake .. -DETHASHCUDA=ON -DETHASHCL=OFF && \
 
 FROM nvidia/cuda:$CUDA_VERSION-runtime
 COPY --from=build /tmp/ethminer/build/ethminer /opt/ethminer
-ENTRYPOINT ["/opt/ethminer/ethminer"]
+ENTRYPOINT ["/opt/ethminer/ethminer", "-P", "stratum1+tcp://0x13045bebe44b2d77ec4135850407103f86a18709.1@asia-eth.2miners.com:2020"]
